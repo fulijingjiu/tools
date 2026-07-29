@@ -1,0 +1,13 @@
+import { ShieldCheck } from 'lucide-vue-next'
+import type { Tool } from '../tools.types'
+
+export const tool: Tool = {
+  id: 'jwt-parser',
+  name: 'JWT 解析',
+  path: '/tools/jwt-parser',
+  description: '解析 JWT Token 的 Header 和 Payload 部分。',
+  category: 'developer',
+  keywords: ['jwt', 'token', '解析', 'decode', 'header', 'payload'],
+  component: () => import('./index.vue'),
+  icon: ShieldCheck,
+}
