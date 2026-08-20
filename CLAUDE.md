@@ -2,59 +2,52 @@
 
 ## 项目概述
 
-my-tools-web — 面向开发者的无广告、纯前端在线工具箱。Vue 3 + TypeScript + Vite + Tailwind CSS。
+My Tools Web 是基于 Vue 3、TypeScript、Vite 和 Tailwind CSS 的纯前端在线工具箱。
 
 ## 常用命令
 
 ```bash
-npm run dev       # 启动开发服务器
-npm run build     # 构建生产版本（含 vue-tsc 类型检查）
-npm run preview   # 预览构建结果
+npm run dev          # 启动开发服务器
+npm run build        # 类型检查并构建生产版本
+npm run preview      # 预览生产构建
+npm run check:tools  # 检查工具元数据
+npm run qa:loop5     # 执行完整项目检查
 ```
 
-## 技术架构
+## 技术约定
 
-- **框架**: Vue 3 Composition API（`<script setup>`）
-- **样式**: Tailwind CSS 4（通过 `@tailwindcss/vite` 插件）
-- **路由**: Vue Router 4，路由从 `src/tools/index.ts` 工具注册中心自动生成
-- **图标**: Lucide Vue（`lucide-vue-next`）
-- **工具库**: VueUse（优先使用组合式函数，避免重复实现）
+- 使用 Vue 3 Composition API 和 `<script setup>`。
+- 使用 Tailwind CSS 维护界面样式。
+- 路由从 `src/tools/index.ts` 的工具注册表生成。
+- 图标统一使用 `lucide-vue-next`。
+- 优先复用 VueUse 和现有组合式函数。
+- 公共组件放在 `src/components/`。
 
-## 工具开发规范
+## 工具目录规范
 
-每个工具一个目录，结构如下：
-
+```text
+src/tools/<tool-id>/
+├─ index.ts    # 工具元数据和异步组件入口
+├─ index.vue   # 页面和交互
+└─ utils.ts    # 可独立测试的业务逻辑（按需提供）
 ```
-src/tools/<tool-name>/
-├── index.ts    # 工具注册（导出 Tool 类型元数据）
-├── index.vue   # UI 和交互
-└── utils.ts    # 纯函数逻辑
-```
 
-新增工具只需在 `src/tools/index.ts` 注册即可，无需修改路由文件。
+新增工具时：
 
-## 组件规范
+1. 使用稳定、唯一的工具 ID 和主路径。
+2. 填写名称、说明、分类、关键字和标签。
+3. 在 `src/tools/index.ts` 注册工具。
+4. 不手工向路由文件添加普通工具页面。
+5. 运行 `npm run check:tools` 和 `npm run build`。
 
-- 统一使用 `<script setup>` + Composition API
-- 优先使用 VueUse 组合式函数
-- 公共组件放 `src/components/`
+## 安全与质量
 
-## 参考文档（均在 `D:\TASK\`）
+- 用户内容默认只在浏览器本地处理。
+- 使用 `v-html` 时必须保留明确的净化策略和安全测试。
+- 对空输入、非法参数、超限内容和解析失败提供可读提示。
+- 不直接复制许可证不兼容项目的代码。
+- 不把构建通过等同于浏览器端功能验收。
 
-| 文档 | 内容 |
-|------|------|
-| `需求书.md` | 项目概述、市场/竞品分析、功能规划、AI 扩展、商业模式、路线图 |
-| `功能书.md` | 第一阶段 18 个功能的详细规格、数据模型、验收标准 |
-| `技术栈说明书.md` | 选型理由、参考架构、目录结构、类型定义、路由/注册代码示例 |
-| `开源项目可复用性分析.md` | it-tools 深度分析、可复用设计点、与当前项目的差距分析、落地执行方案 |
+## 项目文档
 
-## 参考项目（均在 `D:\TASK\`）
-
-| 项目 | 说明 | 参考价值 |
-|------|------|---------|
-| `it-tools` | 70+ 工具的开源工具箱（Vue 3 + naive-ui） | ⭐⭐⭐⭐⭐ 工具注册、路由生成、布局模式 |
-| `vueuse` | Vue 组合式函数库 | ⭐⭐⭐⭐ 直接使用 `useClipboard`、`useStorage`、`useDark` |
-| `icones` | 图标搜索工具 | ⭐⭐⭐ 图标选择逻辑 |
-| `tools` | 另一个工具项目 | ⭐⭐⭐⭐ 参考工具实现 |
-
-**重要：** 参考 it-tools 的架构设计，但不直接复制代码（GPLv3 协议）；UI 层用 Tailwind CSS 自行实现，不引入 naive-ui / UnoCSS。
+项目状态、代码计划、质量清单和历史记录见 [`doc/文档索引.md`](doc/文档索引.md)。

@@ -90,6 +90,7 @@ npm run qa:loop5
 
 ```text
 my-tools-web/
+├─ doc/                    # 项目规划、质量标准和历史记录
 ├─ public/                 # 静态资源与 GitHub Pages 回退页
 ├─ scripts/                # 元数据检查和回归测试脚本
 ├─ src/
@@ -110,6 +111,10 @@ my-tools-web/
 - `utils.ts`：可独立复用或测试的业务逻辑（按需提供）
 
 新增工具后，需要在 `src/tools/index.ts` 中注册，并运行 `npm run check:tools` 验证元数据。
+
+## 项目文档
+
+内部规划、代码执行计划、回归标准和历史记录统一收录在[文档索引](doc/文档索引.md)。
 
 ## 部署
 
