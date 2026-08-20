@@ -9,7 +9,7 @@
 ## 执行结果
 
 - GitHub Pages 已启用，发布源为 GitHub Actions。
-- 首次部署工作流成功，运行记录：<https://github.com/fulijingjiu/tools/actions/runs/32396684564>。
+- 最终部署提交：`d4d8b62`，运行记录：<https://github.com/fulijingjiu/tools/actions/runs/32398651362>。
 - 公开地址：<https://fulijingjiu.github.io/tools/>。
 - `npm run qa:loop5`、`npm run build:pages` 和 `npm run test:online` 均通过。
 - Playwright 按《功能测试文档》完成 21 项检查，结果全部通过。

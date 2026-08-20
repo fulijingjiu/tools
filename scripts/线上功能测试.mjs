@@ -13,7 +13,15 @@ const errors = []
 
 page.on('pageerror', (error) => errors.push(error.message))
 page.on('console', (message) => {
-  if (message.type() === 'error') errors.push(message.text())
+  if (message.type() === 'error' && !message.text().includes('status of 404')) errors.push(message.text())
+})
+page.on('response', (response) => {
+  if (response.status() < 400) return
+  const expectedPagesFallback =
+    response.status() === 404 &&
+    response.request().resourceType() === 'document' &&
+    response.url().startsWith(`${base}/tools/`)
+  if (!expectedPagesFallback) errors.push(`HTTP ${response.status()}: ${response.url()}`)
 })
 
 const run = async (id, task) => {
