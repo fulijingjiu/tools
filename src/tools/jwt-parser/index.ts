@@ -8,6 +8,7 @@ export const tool: Tool = {
   description: '解析 JWT Token 的 Header 和 Payload 部分。',
   category: 'developer',
   keywords: ['jwt', 'token', '解析', 'decode', 'header', 'payload'],
+  tags: ['auth', 'security', 'token', 'debug'],
   component: () => import('./index.vue'),
   icon: ShieldCheck,
 }

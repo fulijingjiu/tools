@@ -4,6 +4,7 @@ import { tool as base64 } from './base64'
 import { tool as urlEncoder } from './url-encoder'
 import { tool as timestamp } from './timestamp'
 import { tool as numberConverter } from './number-converter'
+import { tool as imageCompressor } from './image-compressor'
 import { tool as textProcessor } from './text-processor'
 import { tool as passwordGenerator } from './password-generator'
 import { tool as hash } from './hash'
@@ -22,6 +23,7 @@ export const tools: Tool[] = [
   timestamp,
   numberConverter,
   textProcessor,
+  imageCompressor,
   passwordGenerator,
   hash,
   jwtParser,

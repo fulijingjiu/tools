@@ -8,6 +8,7 @@ export const tool: Tool = {
   description: '输入正则表达式与测试文本，实时查看匹配结果与分组。',
   category: 'developer',
   keywords: ['regex', 'regular expression', '正则', '表达式', '匹配', 'test'],
+  tags: ['pattern', 'matching', 'validation', 'text'],
   component: () => import('./index.vue'),
   icon: Search,
 }

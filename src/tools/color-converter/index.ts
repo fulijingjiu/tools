@@ -8,6 +8,7 @@ export const tool: Tool = {
   description: 'HEX、RGB、HSL 颜色格式互转，实时预览颜色。',
   category: 'design',
   keywords: ['color', '颜色', 'hex', 'rgb', 'hsl', '调色'],
+  tags: ['css', 'palette', 'design', 'converter'],
   component: () => import('./index.vue'),
   icon: Palette,
 }

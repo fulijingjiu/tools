@@ -1,19 +1,29 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRecentTools } from '@/composables/useRecentTools'
 import ToolLayout from '@/components/ToolLayout.vue'
 import TextInput from '@/components/TextInput.vue'
 import { Copy, Check, Eye, Code } from 'lucide-vue-next'
 import { useCopy } from '@/composables/useCopy'
+import { useToast } from '@/composables/useToast'
 import { renderMarkdown } from './utils'
 
 const input = ref('')
 const mode = ref<'preview' | 'source'>('preview')
 const { copy } = useCopy()
+const { error: showError } = useToast()
 const hasCopied = ref(false)
 
-const html = computed(() => renderMarkdown(input.value))
-const sourceCode = computed(() => input.value ? html.value : '')
+const markdownOutput = computed(() => renderMarkdown(input.value))
+const html = computed(() => markdownOutput.value.html)
+const sourceCode = computed(() => (input.value ? html.value : ''))
+
+watch(
+  () => markdownOutput.value.error,
+  (msg) => {
+    if (msg) showError(msg)
+  },
+)
 
 const copyHtml = async () => {
   const ok = await copy(html.value)

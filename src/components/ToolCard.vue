@@ -2,7 +2,10 @@
 import type { Tool } from '@/tools/tools.types'
 import { useRouter } from 'vue-router'
 
-defineProps<{ tool: Tool }>()
+defineProps<{
+  tool: Tool
+  matchReasons?: string[]
+}>()
 const router = useRouter()
 </script>
 
@@ -21,6 +24,12 @@ const router = useRouter()
       </h3>
       <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 text-center line-clamp-2">
         {{ tool.description }}
+      </p>
+      <p
+        v-if="matchReasons?.length"
+        class="text-[11px] text-purple-600 dark:text-purple-300 mt-2 text-center line-clamp-2"
+      >
+        Matched in: {{ matchReasons.join(' / ') }}
       </p>
     </div>
   </button>

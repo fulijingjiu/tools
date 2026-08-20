@@ -6,16 +6,84 @@ export function parseJwt(token: string): {
 } {
   if (!token.trim()) return { header: null, payload: null, signature: '', error: null }
 
-  const parts = token.trim().split('.')
+  const trimmed = token.trim()
+  const parts = trimmed.split('.')
   if (parts.length !== 3) {
-    return { header: null, payload: null, signature: '', error: 'JWT 格式不正确，应包含三段以 "." 分隔' }
+    return {
+      header: null,
+      payload: null,
+      signature: '',
+      error: 'JWT 格式不正确，请输入 header.payload.signature',
+    }
+  }
+
+  const [headerToken, payloadToken, signature] = parts
+  if (!headerToken || !payloadToken) {
+    return {
+      header: null,
+      payload: null,
+      signature,
+      error: 'JWT 缺少 header 或 payload 段',
+    }
+  }
+
+  if (!signature) {
+    return {
+      header: null,
+      payload: null,
+      signature: '',
+      error: 'JWT signature 为空，请确认 token 是否完整',
+    }
   }
 
   try {
-    const header = JSON.parse(atob(parts[0]))
-    const payload = JSON.parse(atob(parts[1]))
-    return { header, payload, signature: parts[2], error: null }
+    const header = safeJsonParse(decodeJwtBase64Url(headerToken), 'header')
+    const payload = safeJsonParse(decodeJwtBase64Url(payloadToken), 'payload')
+    return { header, payload, signature, error: null }
+  } catch (err) {
+    return {
+      header: null,
+      payload: null,
+      signature: '',
+      error: err instanceof Error ? err.message : 'JWT 解析失败',
+    }
+  }
+}
+
+function decodeJwtBase64Url(segment: string): string {
+  const normalizedBase = normalizeBase64Url(segment)
+  const padding = normalizedBase.length % 4
+  if (padding === 1) {
+    throw new Error('分段长度非法，Base64URL 长度不合法')
+  }
+
+  let binary: string
+  try {
+    const normalized = normalizedBase + '='.repeat((4 - padding) % 4)
+    binary = atob(normalized)
   } catch {
-    return { header: null, payload: null, signature: '', error: 'JWT 解析失败，请检查 token 是否完整' }
+    throw new Error('Base64URL 解码失败，请检查 JWT 段格式')
+  }
+
+  const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0))
+  const decoder = new TextDecoder()
+  const decoded = decoder.decode(bytes)
+  if (!decoded.trim()) throw new Error('解码结果为空')
+  return decoded
+}
+
+function normalizeBase64Url(value: string): string {
+  return value.replace(/-/g, '+').replace(/_/g, '/')
+}
+
+function safeJsonParse(raw: string, source: 'header' | 'payload'): object {
+  try {
+    const value = JSON.parse(raw)
+    if (typeof value !== 'object' || value === null) {
+      throw new Error()
+    }
+    return value
+  } catch {
+    throw new Error(`JWT ${source} 不是有效 JSON`)
   }
 }

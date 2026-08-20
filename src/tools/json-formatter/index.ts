@@ -8,6 +8,7 @@ export const tool: Tool = {
   description: '将 JSON 字符串格式化为易读形式，或压缩为一行。',
   category: 'developer',
   keywords: ['json', 'format', '格式化', '压缩', 'minify', '美化'],
+  tags: ['format', 'beautify', 'validator', 'lint'],
   component: () => import('./index.vue'),
   icon: Braces,
 }

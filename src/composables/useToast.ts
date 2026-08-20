@@ -16,6 +16,14 @@ const state = reactive<{
 })
 
 let idCounter = 0
+const timers = new Map<number, ReturnType<typeof setTimeout>>()
+
+function clearToastTimer(id: number) {
+  const timer = timers.get(id)
+  if (!timer) return
+  clearTimeout(timer)
+  timers.delete(id)
+}
 
 function addToast(message: string, type: ToastType, duration = 3000) {
   const id = ++idCounter
@@ -23,13 +31,15 @@ function addToast(message: string, type: ToastType, duration = 3000) {
   state.toasts.push(toast)
 
   if (duration > 0) {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       removeToast(id)
     }, duration)
+    timers.set(id, timer)
   }
 }
 
 export function removeToast(id: number) {
+  clearToastTimer(id)
   const index = state.toasts.findIndex((t) => t.id === id)
   if (index > -1) {
     state.toasts.splice(index, 1)

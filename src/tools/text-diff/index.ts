@@ -8,6 +8,7 @@ export const tool: Tool = {
   description: '对比两段文本，高亮显示新增、删除和 unchanged 内容。',
   category: 'text',
   keywords: ['diff', 'difference', '文本对比', '差异', '比较', 'compare'],
+  tags: ['compare', 'review', 'code-review', 'text'],
   component: () => import('./index.vue'),
   icon: FileDiff,
 }

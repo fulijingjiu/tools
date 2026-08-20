@@ -2,7 +2,14 @@ export function encodeBase64(input: string): { result: string; error: string | n
   if (!input.trim()) return { result: '', error: null }
   try {
     const bytes = new TextEncoder().encode(input)
-    const binary = String.fromCharCode(...bytes)
+    let binary = ''
+    const chunkSize = 0x8000
+
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      const chunk = bytes.slice(i, i + chunkSize)
+      binary += String.fromCharCode(...chunk)
+    }
+
     return { result: btoa(binary), error: null }
   } catch (e) {
     return { result: '', error: `编码失败：${(e as Error).message}` }

@@ -14,6 +14,7 @@ const CHARSETS = {
 }
 
 export function generatePassword(opts: PasswordOptions): string {
+  if (opts.length <= 0) return ''
   const pools: string[] = []
   if (opts.uppercase) pools.push(CHARSETS.uppercase)
   if (opts.lowercase) pools.push(CHARSETS.lowercase)
@@ -23,10 +24,22 @@ export function generatePassword(opts: PasswordOptions): string {
   if (pools.length === 0) return ''
 
   const allChars = pools.join('')
-  const array = new Uint32Array(opts.length)
-  crypto.getRandomValues(array)
+  const maxExclusive = 0x100000000
+  const maxMod = maxExclusive - (maxExclusive % allChars.length)
+  let randomIndex: number
+  const randomValues = new Uint32Array(1)
 
-  return Array.from(array, (n) => allChars[n % allChars.length]).join('')
+  const nextIndex = () => {
+    do {
+      crypto.getRandomValues(randomValues)
+      randomIndex = Number(randomValues[0])
+    } while (randomIndex >= maxMod)
+    return randomIndex % allChars.length
+  }
+
+  return Array.from({ length: opts.length }, nextIndex)
+    .map((index) => allChars[index])
+    .join('')
 }
 
 export function getPasswordStrength(password: string): {

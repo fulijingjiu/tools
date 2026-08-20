@@ -16,7 +16,7 @@ const router = useRouter()
         >
           <ArrowLeft :size="20" />
         </button>
-        <h1 class="text-lg font-semibold text-gray-900 dark:text-white">隐私声明</h1>
+        <h1 class="text-lg font-semibold text-gray-900 dark:text-white">隐私说明</h1>
       </div>
     </header>
 
@@ -24,37 +24,34 @@ const router = useRouter()
       <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-8">
         <div class="flex items-center gap-3 mb-6">
           <Shield :size="28" class="text-purple-600" />
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white">数据完全本地处理</h2>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white">数据处理说明</h2>
         </div>
 
         <div class="space-y-5 text-gray-600 dark:text-gray-300 leading-relaxed">
           <p>
-            开发者工具箱是一个纯前端项目。你在页面上输入或上传的所有内容（文本、图片、JSON、JWT 等）均在浏览器本地完成计算，<strong class="text-gray-900 dark:text-white">不会上传到任何服务器</strong>。
+            本工具箱为纯前端应用，仅在你的浏览器中执行处理，不会主动上传输入内容、文件、图片或链接到服务端。所有结果都在本地生成，仅在本机内存或本地存储中临时保留（如最近使用记录）。
           </p>
 
           <div>
-            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">我们存储什么</h3>
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">我们会保留</h3>
             <ul class="list-disc list-inside space-y-1">
-              <li>最近使用过的工具 ID（用于首页"最近使用"功能）</li>
-              <li>深色 / 浅色主题偏好</li>
+              <li>最近访问工具 ID（存储在 localStorage）</li>
+              <li>明文输入文本（仅在页面状态下短期使用）</li>
             </ul>
-            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-              以上数据仅保存在你当前浏览器的 localStorage 中，可随时通过浏览器设置清除。
-            </p>
           </div>
 
           <div>
-            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">我们不做什么</h3>
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-2">我们不会上传</h3>
             <ul class="list-disc list-inside space-y-1">
-              <li>不收集用户账号、手机号、邮箱等个人信息</li>
-              <li>不使用 Cookie 追踪用户</li>
-              <li>不向第三方分享任何数据</li>
-              <li>不记录你输入的具体内容</li>
+              <li>个人身份信息</li>
+              <li>Cookie、登录凭据</li>
+              <li>完整的文本内容或图片文件</li>
+              <li>你传入的敏感字段（除非浏览器默认行为保存）</li>
             </ul>
           </div>
 
           <p class="text-sm text-gray-500 dark:text-gray-400">
-            如果你对本声明有疑问，可以通过项目的 GitHub 仓库提交 issue 反馈。
+            如有问题或建议，可在项目 GitHub 仓库提交 issue。
           </p>
         </div>
       </div>

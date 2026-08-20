@@ -8,6 +8,7 @@ export const tool: Tool = {
   description: '实时预览 Markdown 文本的渲染效果，支持导出 HTML。',
   category: 'design',
   keywords: ['markdown', 'md', '预览', 'preview', '渲染'],
+  tags: ['documentation', 'text', 'render', 'viewer'],
   component: () => import('./index.vue'),
   icon: FileText,
 }

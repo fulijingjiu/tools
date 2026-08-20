@@ -7,6 +7,7 @@ export interface Tool {
   description: string
   category: string
   keywords: string[]
+  tags?: string[]
   component: () => Promise<Component>
   icon: Component
   redirectFrom?: string[]

@@ -8,6 +8,7 @@ export const tool: Tool = {
   description: '二进制、八进制、十进制、十六进制实时互转。',
   category: 'developer',
   keywords: ['进制', '二进制', '八进制', '十进制', '十六进制', 'hex', 'binary', 'octal'],
+  tags: ['radix', 'converter', 'binary', 'octal', 'hex'],
   component: () => import('./index.vue'),
   icon: Binary,
 }

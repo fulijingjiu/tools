@@ -8,6 +8,7 @@ export const tool: Tool = {
   description: '生成安全的随机密码，可配置长度和字符类型。',
   category: 'other',
   keywords: ['password', '密码', '生成', '随机', '安全'],
+  tags: ['security', 'random', 'credentials', 'utility'],
   component: () => import('./index.vue'),
   icon: Key,
 }

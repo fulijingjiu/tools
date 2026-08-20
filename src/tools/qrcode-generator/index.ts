@@ -8,6 +8,7 @@ export const tool: Tool = {
   description: '将文本或链接生成为二维码图片，支持下载。',
   category: 'image',
   keywords: ['qrcode', '二维码', 'qr', '生成'],
+  tags: ['barcode', 'url', 'generator', 'image'],
   component: () => import('./index.vue'),
   icon: QrCode,
 }
