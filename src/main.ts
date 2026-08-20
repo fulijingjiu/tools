@@ -12,13 +12,12 @@ if (redirectPath) {
   try {
     const target = decodeURIComponent(redirectPath)
     if (target.startsWith('/') && !target.startsWith('//')) {
+      window.history.replaceState({}, '', import.meta.env.BASE_URL)
       void router.replace(target)
     }
   } catch {
     // ignore invalid redirect param
   }
-
-  window.history.replaceState({}, '', '/')
 }
 
 app.mount('#app')

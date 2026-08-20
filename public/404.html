@@ -8,9 +8,13 @@
   <body>
     <script>
       (() => {
-        const path = window.location.pathname + window.location.search + window.location.hash
+        const basePath = '/tools'
+        const appPath = window.location.pathname.startsWith(`${basePath}/`)
+          ? window.location.pathname.slice(basePath.length)
+          : '/'
+        const path = appPath + window.location.search + window.location.hash
         const target = encodeURIComponent(path)
-        window.location.replace(`/?_spa_redirect=${target}`)
+        window.location.replace(`${basePath}/?_spa_redirect=${target}`)
       })()
     </script>
   </body>
