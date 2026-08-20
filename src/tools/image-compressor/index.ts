@@ -3,9 +3,9 @@ import type { Tool } from '../tools.types'
 
 export const tool: Tool = {
   id: 'image-compressor',
-  name: 'Image Compressor',
+  name: '图片压缩',
   path: '/tools/image-compressor',
-  description: 'Compress images with configurable size and quality to reduce file size for upload or storage.',
+  description: '调整图片尺寸、质量和输出格式，压缩后可预览并下载。',
   category: 'image',
   keywords: ['image', 'compress', 'jpeg', 'png', 'webp', 'resize', 'optimizer'],
   tags: ['image-optimize', 'resize', 'upload', 'thumbnail', 'quality'],

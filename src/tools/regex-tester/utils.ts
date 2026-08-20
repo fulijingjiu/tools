@@ -29,8 +29,8 @@ export function testRegex(pattern: string, flags: string, text: string): RegexTe
       if (match) matches.push(parseMatch(match))
     }
     return { matches, error: null }
-  } catch (e) {
-    return { matches: [], error: `正则表达式错误：${(e as Error).message}` }
+  } catch {
+    return { matches: [], error: '正则表达式错误，请检查表达式和标志位' }
   }
 }
 

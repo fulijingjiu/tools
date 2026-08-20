@@ -40,11 +40,13 @@ const output = () => page.locator('textarea').last()
 
 await run('C-01', async () => {
   await page.goto(`${base}/`, { waitUntil: 'networkidle' })
-  await input('Search tools by name/description/keyword/tag/category').fill('JSON')
+  const search = input('按名称、说明、关键词、标签或分类搜索工具')
+  await search.fill('JSON')
   await assertVisible(page.getByRole('heading', { name: 'JSON 格式化' }))
   assert.equal(await page.getByRole('heading', { name: 'Base64 编解码' }).count(), 0)
-  await input('Search tools by name/description/keyword/tag/category').fill('')
+  await search.fill('')
   await assertVisible(page.getByRole('heading', { name: 'Base64 编解码' }))
+  assert.doesNotMatch(await page.locator('body').innerText(), /Developer Toolkit|Quick search|Recent used|Image Compressor/)
 })
 
 await run('C-02', async () => {
@@ -52,7 +54,7 @@ await run('C-02', async () => {
   await page.getByRole('button', { name: /JSON 格式化/ }).click()
   await page.waitForURL(`${base}/tools/json-formatter`)
   await page.goBack()
-  await assertVisible(page.getByRole('heading', { name: 'Developer Toolkit' }))
+  await assertVisible(page.getByRole('heading', { name: '在线工具箱' }))
   await page.goto(`${base}/tools/base64`, { waitUntil: 'networkidle' })
   await assertVisible(page.getByRole('heading', { name: 'Base64 编解码' }))
 })
@@ -60,7 +62,7 @@ await run('C-02', async () => {
 await run('C-03', async () => {
   await page.goto(`${base}/`, { waitUntil: 'networkidle' })
   const before = await page.locator('html').getAttribute('class')
-  await page.getByRole('button', { name: 'Toggle theme' }).click()
+  await page.getByRole('button', { name: '切换主题' }).click()
   assert.notEqual(await page.locator('html').getAttribute('class'), before)
 })
 
@@ -137,9 +139,9 @@ await run('D-06', async () => {
 
 await run('D-07', async () => {
   await tool('jwt-parser')
-  await input('粘贴 JWT Token...').fill('eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxMjMiLCJuYW1lIjoi5rWL6K-VIn0.eA')
+  await input('粘贴 JWT 令牌...').fill('eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiIxMjMiLCJuYW1lIjoi5rWL6K-VIn0.eA')
   assert.match(await page.locator('textarea').nth(2).inputValue(), /"sub": "123"/)
-  await input('粘贴 JWT Token...').fill('bad-token')
+  await input('粘贴 JWT 令牌...').fill('bad-token')
   await assertVisible(page.getByText(/JWT 格式不正确/))
 })
 
@@ -193,14 +195,14 @@ await run('G-01', async () => {
     mimeType: 'image/png',
     buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9WlN6jAAAAAASUVORK5CYII=', 'base64'),
   })
-  await page.getByRole('button', { name: 'Compress', exact: true }).click()
-  await assertVisible(page.getByRole('button', { name: 'Download' }))
+  await page.getByRole('button', { name: '开始压缩', exact: true }).click()
+  await assertVisible(page.getByRole('button', { name: '下载' }))
 })
 
 await run('G-02', async () => {
   await tool('qrcode-generator')
   await input('输入文本或链接...').fill('https://fulijingjiu.github.io/tools/')
-  await assertVisible(page.getByRole('img', { name: 'QR Code' }))
+  await assertVisible(page.getByRole('img', { name: '二维码' }))
   const download = page.waitForEvent('download')
   await page.getByRole('button', { name: '下载 PNG' }).click()
   assert.equal((await download).suggestedFilename(), 'qrcode.png')

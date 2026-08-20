@@ -13,7 +13,7 @@ export function parseJwt(token: string): {
       header: null,
       payload: null,
       signature: '',
-      error: 'JWT 格式不正确，请输入 header.payload.signature',
+      error: 'JWT 格式不正确，应包含头部、载荷和签名三段',
     }
   }
 
@@ -23,7 +23,7 @@ export function parseJwt(token: string): {
       header: null,
       payload: null,
       signature,
-      error: 'JWT 缺少 header 或 payload 段',
+      error: 'JWT 缺少头部或载荷段',
     }
   }
 
@@ -32,7 +32,7 @@ export function parseJwt(token: string): {
       header: null,
       payload: null,
       signature: '',
-      error: 'JWT signature 为空，请确认 token 是否完整',
+      error: 'JWT 签名为空，请确认令牌是否完整',
     }
   }
 
@@ -84,6 +84,6 @@ function safeJsonParse(raw: string, source: 'header' | 'payload'): object {
     }
     return value
   } catch {
-    throw new Error(`JWT ${source} 不是有效 JSON`)
+    throw new Error(`JWT ${source === 'header' ? '头部' : '载荷'}不是有效 JSON`)
   }
 }

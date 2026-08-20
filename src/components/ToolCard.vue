@@ -29,7 +29,7 @@ const router = useRouter()
         v-if="matchReasons?.length"
         class="text-[11px] text-purple-600 dark:text-purple-300 mt-2 text-center line-clamp-2"
       >
-        Matched in: {{ matchReasons.join(' / ') }}
+        命中字段：{{ matchReasons.join(' / ') }}
       </p>
     </div>
   </button>

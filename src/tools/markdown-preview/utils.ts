@@ -25,10 +25,10 @@ export function renderMarkdown(input: string): { html: string; error: string | n
   try {
     const html = marked.parse(input, { breaks: true }) as string
     return { html: sanitizeHtml(html), error: null }
-  } catch (e) {
+  } catch {
     return {
       html: '',
-      error: `Markdown 渲染失败：${e instanceof Error ? e.message : '未知错误'}`,
+      error: 'Markdown 渲染失败，请检查输入内容',
     }
   }
 }

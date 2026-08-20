@@ -25,7 +25,7 @@ addRecent('text-diff')
 </script>
 
 <template>
-  <ToolLayout title="文本差异对比" description="对比两段文本，高亮显示新增、删除和 unchanged 内容。">
+  <ToolLayout title="文本差异对比" description="对比两段文本，高亮显示新增、删除和未变化内容。">
     <div class="space-y-4">
       <!-- 模式切换 -->
       <div class="flex flex-wrap gap-2">

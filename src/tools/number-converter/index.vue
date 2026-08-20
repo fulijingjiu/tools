@@ -82,7 +82,7 @@ addRecent('number-converter')
             <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">
               {{ BASE_LABELS[base] }}
             </span>
-            <span class="text-xs text-gray-400 dark:text-gray-500">Base {{ base }}</span>
+            <span class="text-xs text-gray-400 dark:text-gray-500">{{ base }} 进制</span>
           </div>
           <p class="font-mono text-lg text-gray-900 dark:text-gray-100 break-all">
             {{ results[base] || '-' }}

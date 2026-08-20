@@ -70,7 +70,7 @@ const onSelectFile = (e: Event) => {
   if (!file) return
 
   if (!file.type.startsWith('image/')) {
-    error('Only image files are supported.')
+    error('仅支持图片文件。')
     if (input) input.value = ''
     return
   }
@@ -105,8 +105,8 @@ const runCompress = async () => {
 
   try {
     result.value = await compressImage(sourceFile.value, options)
-  } catch (err) {
-    error(err instanceof Error ? err.message : 'Image compression failed.')
+  } catch {
+    error('图片压缩失败，请检查文件格式和参数。')
   } finally {
     isCompressing.value = false
   }
@@ -115,7 +115,7 @@ const runCompress = async () => {
 const onDownload = () => {
   if (!result.value) return
   const name = originalFileName.value
-  const fileName = `${baseName(name)}_compressed.${fileExt(targetType.value)}`
+  const fileName = `${baseName(name)}_压缩后.${fileExt(targetType.value)}`
   downloadBlob(result.value.blob, fileName)
 }
 
@@ -125,7 +125,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <ToolLayout title="Image Compressor" description="Upload, resize, and compress images in one step.">
+  <ToolLayout title="图片压缩" description="上传图片后调整尺寸、质量和格式，一步完成压缩。">
     <div class="space-y-5">
       <div
         class="rounded-xl border border-dashed border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-4"
@@ -136,9 +136,9 @@ onUnmounted(() => {
         >
           <Upload :size="28" class="text-gray-500 dark:text-gray-400" />
           <span class="text-sm text-gray-600 dark:text-gray-300">
-            Click to upload an image file
+            点击上传图片
           </span>
-          <span class="text-xs text-gray-400">Supported formats: JPG, PNG, WEBP</span>
+          <span class="text-xs text-gray-400">支持格式：JPG、PNG、WEBP</span>
         </label>
         <input
           id="image-file-input"
@@ -152,13 +152,13 @@ onUnmounted(() => {
 
       <div v-if="hasFile" class="space-y-3">
         <div class="flex flex-wrap items-center justify-between gap-2 text-sm">
-          <span class="text-gray-700 dark:text-gray-300 font-medium">Original: {{ originalFileName }}</span>
-          <span class="text-gray-500 dark:text-gray-400">Size: {{ formatSize(sourceFile?.size || 0) }}</span>
+          <span class="text-gray-700 dark:text-gray-300 font-medium">原图：{{ originalFileName }}</span>
+          <span class="text-gray-500 dark:text-gray-400">大小：{{ formatSize(sourceFile?.size || 0) }}</span>
         </div>
 
         <div class="grid sm:grid-cols-2 gap-4">
           <label class="space-y-1">
-            <span class="text-xs text-gray-500 dark:text-gray-400">Max Width (px)</span>
+            <span class="text-xs text-gray-500 dark:text-gray-400">最大宽度（像素）</span>
             <input
               v-model.number="maxWidth"
               type="number"
@@ -170,7 +170,7 @@ onUnmounted(() => {
             />
           </label>
           <label class="space-y-1">
-            <span class="text-xs text-gray-500 dark:text-gray-400">Max Height (px)</span>
+            <span class="text-xs text-gray-500 dark:text-gray-400">最大高度（像素）</span>
             <input
               v-model.number="maxHeight"
               type="number"
@@ -185,14 +185,14 @@ onUnmounted(() => {
 
         <label class="space-y-1 block">
           <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-            <span>Quality: {{ Math.round(quality * 100) }}%</span>
-            <span>Recommended: {{ quality >= 0.75 ? 'balanced' : 'higher compression' }}</span>
+            <span>质量：{{ Math.round(quality * 100) }}%</span>
+            <span>建议：{{ quality >= 0.75 ? '均衡' : '更高压缩率' }}</span>
           </div>
           <input v-model.number="quality" type="range" min="0.1" max="1" step="0.05" class="w-full" />
         </label>
 
         <label class="space-y-1 block">
-          <span class="text-xs text-gray-500 dark:text-gray-400">Output format</span>
+          <span class="text-xs text-gray-500 dark:text-gray-400">输出格式</span>
           <select
             v-model="targetType"
             class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg
@@ -211,14 +211,14 @@ onUnmounted(() => {
             class="px-4 py-2 rounded-lg font-medium text-sm text-white bg-purple-600 hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
             <Loader2 v-if="isCompressing" :size="16" class="animate-spin" />
-            <span>{{ isCompressing ? 'Compressing...' : 'Compress' }}</span>
+            <span>{{ isCompressing ? '正在压缩...' : '开始压缩' }}</span>
           </button>
           <button
             @click="clear"
             class="px-4 py-2 rounded-lg font-medium text-sm bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
           >
             <RotateCcw :size="16" />
-            Clear
+            清空
           </button>
           <button
             v-if="result"
@@ -226,7 +226,7 @@ onUnmounted(() => {
             class="px-4 py-2 rounded-lg font-medium text-sm text-white bg-green-600 hover:bg-green-700 flex items-center gap-2"
           >
             <Download :size="16" />
-            Download
+            下载
           </button>
         </div>
       </div>
@@ -236,10 +236,10 @@ onUnmounted(() => {
           v-if="sourceUrl"
           class="border border-gray-200 dark:border-gray-700 rounded-xl p-3 bg-white dark:bg-gray-800"
         >
-          <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Original</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">原图</p>
           <img
             :src="sourceUrl"
-            alt="original image preview"
+            alt="原图预览"
             class="w-full rounded-lg object-contain max-h-72 bg-gray-100 dark:bg-gray-900"
           />
         </div>
@@ -248,10 +248,10 @@ onUnmounted(() => {
           v-if="result"
           class="border border-gray-200 dark:border-gray-700 rounded-xl p-3 bg-white dark:bg-gray-800"
         >
-          <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Compressed</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">压缩结果</p>
           <img
             :src="result.dataUrl"
-            alt="compressed image preview"
+            alt="压缩结果预览"
             class="w-full rounded-lg object-contain max-h-72 bg-gray-100 dark:bg-gray-900"
           />
           <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">

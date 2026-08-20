@@ -20,21 +20,21 @@ const { success } = useToast()
 const githubRepo = 'https://github.com/fulijingjiu/tools'
 
 const categoryLabels: Record<string, string> = {
-  developer: 'Developer',
-  text: 'Text',
-  image: 'Image',
-  design: 'Design',
-  other: 'Other',
+  developer: '开发工具',
+  text: '文本工具',
+  image: '图片工具',
+  design: '设计工具',
+  other: '其他工具',
 }
 
 const matchReasonLabels: Record<string, string> = {
-  name: 'Name',
-  description: 'Description',
-  keyword: 'Keyword',
-  tag: 'Tag',
-  'all-fields': 'All fields',
-  'category match': 'Category',
-  'tag match': 'Tag',
+  name: '名称',
+  description: '说明',
+  keyword: '关键词',
+  tag: '标签',
+  'all-fields': '全部字段',
+  'category match': '分类',
+  'tag match': '标签',
 }
 
 const tokenize = (text: string): string[] =>
@@ -84,11 +84,11 @@ const matchForToken = (tool: typeof tools[number], token: string): SearchMatch =
     }
     if (tool.id.toLowerCase().includes(token)) {
       score += 2
-      reasons.push('ID')
+      reasons.push('标识')
     }
     if (tool.path.toLowerCase().includes(token)) {
       score += 2
-      reasons.push('Path')
+      reasons.push('路径')
     }
     if (tool.keywords.some((keyword) => keyword.toLowerCase().includes(token))) {
       score += 3
@@ -98,17 +98,6 @@ const matchForToken = (tool: typeof tools[number], token: string): SearchMatch =
 
   return { tool, score, reasons: [...new Set(reasons)] }
 }
-
-const getQuickTags = () => {
-  const tags = tools.flatMap((tool) => tool.tags ?? []).filter(Boolean)
-  return [...new Set(tags)].slice(0, 6)
-}
-
-const quickSearchHints = computed(() => {
-  const categories = Object.keys(categoryLabels).map((category) => `cat:${category}`)
-  const tags = getQuickTags().map((tag) => `tag:${tag}`)
-  return ['cat:*', 'tag:*', ...categories, ...new Set(tags)]
-})
 
 const filteredTools = computed(() => {
   const query = search.value.trim()
@@ -157,28 +146,12 @@ const hasSearching = computed(() => search.value.trim().length > 0)
 
 const handleClearRecent = () => {
   clearRecent()
-  success('Recently used tools cleared')
+  success('已清空最近使用记录')
 }
 
 const handleClearSearch = () => {
   search.value = ''
 }
-
-const handleQuickSearch = (value: string) => {
-  search.value = value
-}
-
-const isInvalidCategoryTagQuery =
-  computed(() => {
-    if (!hasSearching.value) return false
-    const normalized = search.value.toLowerCase().trim()
-    return (
-      normalized === 'cat:' ||
-      normalized === 'tag:' ||
-      (normalized.startsWith('cat:') && normalized.includes(' ')) ||
-      (normalized.startsWith('tag:') && normalized.includes(' '))
-    )
-  })
 
 </script>
 
@@ -186,11 +159,11 @@ const isInvalidCategoryTagQuery =
   <div class="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors">
     <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
       <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-        <h1 class="text-xl font-bold text-gray-900 dark:text-white">Developer Toolkit</h1>
+        <h1 class="text-xl font-bold text-gray-900 dark:text-white">在线工具箱</h1>
         <button
           @click="toggleDark()"
           class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400 transition-colors"
-          title="Toggle theme"
+          title="切换主题"
         >
           <Sun v-if="isDark" :size="20" />
           <Moon v-else :size="20" />
@@ -204,37 +177,22 @@ const isInvalidCategoryTagQuery =
         <input
           v-model="search"
           type="text"
-          placeholder="Search tools by name/description/keyword/tag/category"
+          placeholder="按名称、说明、关键词、标签或分类搜索工具"
           class="w-full pl-12 pr-12 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-shadow"
         />
         <button
           v-if="hasSearching"
           @click="handleClearSearch"
           class="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 dark:text-gray-500"
-          title="Clear"
+          title="清空搜索"
         >
           <X :size="16" />
         </button>
       </div>
 
-      <div class="mb-8 text-xs text-gray-500 dark:text-gray-400">
-        <p class="mb-2">Quick search: supports <span class="font-semibold">cat:</span> + category and <span class="font-semibold">tag:</span> + tag.</p>
-        <div class="flex flex-wrap gap-2">
-          <button
-            v-for="hint in quickSearchHints"
-            :key="hint"
-            type="button"
-            @click="handleQuickSearch(hint)"
-            class="px-2 py-1 rounded-full border border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500 transition-colors"
-          >
-            {{ hint }}
-          </button>
-        </div>
-      </div>
-
       <div v-if="hasSearching" class="mb-10">
         <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
-          Search result ({{ filteredTools.length }})
+          搜索结果（{{ filteredTools.length }}）
         </h2>
 
         <template v-if="filteredTools.length">
@@ -246,18 +204,15 @@ const isInvalidCategoryTagQuery =
               :match-reasons="item.reasons"
             />
           </div>
-          <p v-if="isInvalidCategoryTagQuery" class="text-xs text-gray-500 dark:text-gray-400 mt-3">
-            Current query uses a special prefix. Use plain keywords directly for regular search.
-          </p>
         </template>
 
         <p v-else class="text-gray-400 dark:text-gray-500 text-center py-12">
-          No match found.
+          未找到匹配工具。
           <button
             class="text-purple-600 dark:text-purple-400 underline ml-2"
             @click="handleClearSearch"
           >
-            Clear and retry
+            清空后重试
           </button>
         </p>
       </div>
@@ -265,12 +220,12 @@ const isInvalidCategoryTagQuery =
       <template v-else>
         <section v-if="recentTools.length" class="mb-10">
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400">Recent used</h2>
+            <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400">最近使用</h2>
             <button
               @click="handleClearRecent"
               class="text-xs text-red-500 hover:text-red-600 dark:hover:text-red-400 transition-colors"
             >
-              Clear
+              清空
             </button>
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
@@ -291,8 +246,8 @@ const isInvalidCategoryTagQuery =
 
     <footer class="border-t border-gray-200 dark:border-gray-800 py-6 text-center">
       <p class="text-xs text-gray-400 dark:text-gray-500">
-        Privacy-first toolkit. Processing is local.
-        <RouterLink to="/privacy" class="underline hover:text-gray-600 dark:hover:text-gray-300">Privacy notes</RouterLink>
+        隐私优先，所有处理均在本地完成。
+        <RouterLink to="/privacy" class="underline hover:text-gray-600 dark:hover:text-gray-300">隐私说明</RouterLink>
         |
         <a
           :href="githubRepo"

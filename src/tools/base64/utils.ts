@@ -11,8 +11,8 @@ export function encodeBase64(input: string): { result: string; error: string | n
     }
 
     return { result: btoa(binary), error: null }
-  } catch (e) {
-    return { result: '', error: `编码失败：${(e as Error).message}` }
+  } catch {
+    return { result: '', error: '编码失败，请检查输入内容' }
   }
 }
 

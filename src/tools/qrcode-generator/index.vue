@@ -60,7 +60,7 @@ watch([input, size], updateQR)
         <img
           v-if="qrcodeDataUrl"
           :src="qrcodeDataUrl"
-          alt="QR Code"
+          alt="二维码"
           class="max-w-full"
         />
         <p v-else class="text-gray-400 dark:text-gray-500">请输入内容生成二维码</p>

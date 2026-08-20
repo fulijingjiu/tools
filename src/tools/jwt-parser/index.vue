@@ -33,26 +33,26 @@ addRecent('jwt-parser')
 </script>
 
 <template>
-  <ToolLayout title="JWT 解析" description="解析 JWT Token 的 Header 和 Payload 部分。">
+  <ToolLayout title="JWT 解析" description="解析 JWT 令牌的头部和载荷部分。">
     <div class="space-y-4">
-      <TextInput v-model="input" placeholder="粘贴 JWT Token..." />
+      <TextInput v-model="input" placeholder="粘贴 JWT 令牌..." />
 
       <div v-if="parsed.header" class="space-y-4">
         <div>
           <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-            Header
+            头部
           </h3>
           <TextOutput v-model="headerJson" :rows="6" />
         </div>
         <div>
           <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-            Payload
+            载荷
           </h3>
           <TextOutput v-model="payloadJson" :rows="10" />
         </div>
         <div>
           <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-            Signature
+            签名
           </h3>
           <p class="font-mono text-xs text-gray-400 dark:text-gray-500 break-all p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
             {{ parsed.signature }}

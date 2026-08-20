@@ -127,7 +127,7 @@ addRecent('regex-tester')
           <p class="font-medium text-gray-900 dark:text-white mb-1.5">匹配 #{{ idx + 1 }}</p>
           <div class="space-y-1 text-gray-600 dark:text-gray-400 font-mono">
             <p v-for="(group, gIdx) in match.groups" :key="`g-${gIdx}`">
-              ${{ gIdx + 1 }}: {{ group ?? 'undefined' }}
+              ${{ gIdx + 1 }}: {{ group ?? '未匹配' }}
             </p>
             <p v-for="(value, name) in match.namedGroups" :key="`n-${name}`">
               &lt;{{ name }}&gt;: {{ value }}

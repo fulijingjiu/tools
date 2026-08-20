@@ -3,8 +3,8 @@ export function formatJson(input: string): { result: string; error: string | nul
   try {
     const parsed = JSON.parse(input)
     return { result: JSON.stringify(parsed, null, 2), error: null }
-  } catch (e) {
-    return { result: '', error: `JSON 格式错误：${(e as Error).message}` }
+  } catch {
+    return { result: '', error: 'JSON 格式错误，请检查输入内容' }
   }
 }
 
@@ -13,8 +13,8 @@ export function minifyJson(input: string): { result: string; error: string | nul
   try {
     const parsed = JSON.parse(input)
     return { result: JSON.stringify(parsed), error: null }
-  } catch (e) {
-    return { result: '', error: `JSON 格式错误：${(e as Error).message}` }
+  } catch {
+    return { result: '', error: 'JSON 格式错误，请检查输入内容' }
   }
 }
 
