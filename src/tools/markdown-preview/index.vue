@@ -3,7 +3,7 @@ import { ref, computed, watch } from 'vue'
 import { useRecentTools } from '@/composables/useRecentTools'
 import ToolLayout from '@/components/ToolLayout.vue'
 import TextInput from '@/components/TextInput.vue'
-import { Copy, Check, Eye, Code } from 'lucide-vue-next'
+import { Copy, Check, Eye, Code, Download } from 'lucide-vue-next'
 import { useCopy } from '@/composables/useCopy'
 import { useToast } from '@/composables/useToast'
 import { renderMarkdown } from './utils'
@@ -31,6 +31,17 @@ const copyHtml = async () => {
     hasCopied.value = true
     setTimeout(() => (hasCopied.value = false), 2000)
   }
+}
+
+const downloadHtml = () => {
+  const blob = new Blob([`<!doctype html><meta charset="UTF-8"><body>${html.value}</body>`], {
+    type: 'text/html;charset=utf-8',
+  })
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(blob)
+  link.download = 'markdown-preview.html'
+  link.click()
+  URL.revokeObjectURL(link.href)
 }
 
 const { addRecent } = useRecentTools()
@@ -103,14 +114,23 @@ console.log("hello")
                 <Code :size="14" /> 源码
               </button>
             </div>
-            <button
-              @click="copyHtml"
-              class="p-1.5 rounded text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-              title="复制 HTML"
-            >
-              <Check v-if="hasCopied" :size="14" class="text-green-500" />
-              <Copy v-else :size="14" />
-            </button>
+            <div class="flex gap-1">
+              <button
+                @click="downloadHtml"
+                class="p-1.5 rounded text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                title="下载 HTML"
+              >
+                <Download :size="14" />
+              </button>
+              <button
+                @click="copyHtml"
+                class="p-1.5 rounded text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                title="复制 HTML"
+              >
+                <Check v-if="hasCopied" :size="14" class="text-green-500" />
+                <Copy v-else :size="14" />
+              </button>
+            </div>
           </div>
 
           <div

@@ -1,10 +1,19 @@
 # GitHub Pages 部署计划
 
-> 状态：待执行  
+> 状态：已完成
 > 优先级：P0  
 > 目标站点：`https://fulijingjiu.github.io/tools/`  
 > 适用仓库：`fulijingjiu/tools`  
 > 计划日期：2026-08-21
+
+## 执行结果
+
+- GitHub Pages 已启用，发布源为 GitHub Actions。
+- 首次部署工作流成功，运行记录：<https://github.com/fulijingjiu/tools/actions/runs/32396684564>。
+- 公开地址：<https://fulijingjiu.github.io/tools/>。
+- `npm run qa:loop5`、`npm run build:pages` 和 `npm run test:online` 均通过。
+- Playwright 按《功能测试文档》完成 21 项检查，结果全部通过。
+- 测试发现并补齐 Markdown HTML 文件下载功能。
 
 ## 一、目标
 
@@ -64,13 +73,13 @@ createWebHistory()
 - 本地构建、产物检查和线上冒烟验证。
 - 部署说明和回归清单更新。
 
-### 本阶段不包含
+### 原计划不包含
 
 - 新工具开发。
 - 页面视觉重构。
 - Vercel 正式发布操作。
 - 自定义域名配置。
-- Vitest 和 Playwright 测试体系建设。
+- Vitest 测试体系建设。执行阶段按要求增加了单文件 Playwright 线上测试脚本。
 
 ## 四、技术方案
 

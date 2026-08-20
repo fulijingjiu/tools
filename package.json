@@ -8,6 +8,7 @@
     "build": "vue-tsc -b && vite build",
     "build:pages": "vue-tsc -b && vite build --base=/tools/",
     "preview": "vite preview",
+    "test:online": "node scripts/线上功能测试.mjs",
     "check:tools": "node scripts/check-tools-metadata.mjs",
     "qa:loop5:search": "node scripts/loop5-search-smoke.mjs",
     "qa:loop5:ui": "node scripts/loop5-ui-guard.mjs",

@@ -2,6 +2,8 @@
 
 一个面向开发者和日常使用场景的在线工具箱。项目采用纯前端实现，常用转换、解析与生成操作均在浏览器本地完成，无需注册或登录。
 
+在线使用：[https://fulijingjiu.github.io/tools/](https://fulijingjiu.github.io/tools/)
+
 ## 特点
 
 - 纯前端运行：常规输入数据不会上传到后端服务器
@@ -130,12 +132,12 @@ my-tools-web/
 ### GitHub Pages
 
 ```bash
-npm run build
+npm run build:pages
 ```
 
-将 `dist/` 目录发布到 GitHub Pages 使用的分支或工作流。`public/404.html` 和 `public/.nojekyll` 会随构建产物复制，用于支持直接访问前端路由。
-
-如果使用 `https://<username>.github.io/<repository>/` 形式的项目站点，需要同时根据仓库路径配置 Vite 的 `base`；使用自定义域名或根站点时可保持当前配置。
+推送到 `main` 后，GitHub Actions 会完成检查、构建并自动部署到
+[https://fulijingjiu.github.io/tools/](https://fulijingjiu.github.io/tools/)。
+`public/404.html` 和 `public/.nojekyll` 用于支持直接访问前端路由。
 
 ## 隐私说明
 
